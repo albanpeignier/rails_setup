@@ -4,7 +4,7 @@ Provides scripts and tasks to setup your rails environment
 
 == Install
 
-  ./script/plugin git://github.com/albanpeignier/rails_setup.git
+  ./script/plugin install git://github.com/albanpeignier/rails_setup.git
 
     create script/rails_setup
     create script/rake_with_rails_setup
