@@ -1,0 +1,65 @@
+= RailsSetup
+
+Provides scripts and tasks to setup your rails environment
+
+== Install
+
+  ./script/plugin git://github.com/albanpeignier/rails_setup.git
+
+    create script/rails_setup
+    create script/rake_with_rails_setup
+
+== Example
+
+Setup your rails environment in a single command:
+
+  ./script/rails_setup
+
+  check if rails gems are needed ...
+  install rails 2.2.2
+  sudo gem install rails --version 2.2.2
+  Successfully installed rails-2.2.2
+  1 gem installed
+  check if configured gems are needed ...
+  rake gems:install_with_sudo
+  sudo gem install sqlite3-ruby
+  Building native extensions.  This could take a while...
+  Successfully installed sqlite3-ruby-1.2.4
+  1 gem installed
+  sudo gem install rspec-rails
+  Successfully installed rspec-1.1.12
+  Successfully installed rspec-rails-1.1.12
+  2 gems installed
+
+Setup your rails environment before running a rake task:
+
+  ./script/rake_with_rails_setup cruise
+
+  check if rails gems are needed ...
+  check if configured gems are needed ...
+  rake gems:install_with_sudo
+  rake cruise
+
+Install your configured gems with sudo:
+
+  rake gems:install_with_sudo
+
+== CruiseControl.rb integration
+
+To use rake_with_rails_setup in Cruisecontrol.rb
+
+  Project.configure do |project|
+
+    # ...
+
+    project.build_command = './script/rake_with_rails_setup cruise'
+ 
+  end
+
+Allow the cruisecontrol daemon to run sudo gem, in /etc/sudoers:
+
+  ccontrolrb ALL=NOPASSWD: /usr/bin/gem
+
+See http://cruisecontrolrb.thoughtworks.com/
+
+Copyright (c) 2009 Alban Peignier, released under the MIT license

@@ -1,0 +1,6 @@
+#!/usr/bin/env ruby
+
+require 'rake'
+
+sh File.join(File.dirname(__FILE__), "rails_setup")
+sh "rake", *ARGV
