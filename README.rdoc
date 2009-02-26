@@ -18,19 +18,33 @@ Setup your rails environment in a single command:
   check if rails gems are needed ...
   install rails 2.2.2
   sudo gem install rails --version 2.2.2
+  Successfully installed rake-0.8.3
+  Successfully installed activesupport-2.2.2
+  Successfully installed activerecord-2.2.2
+  Successfully installed actionpack-2.2.2
+  Successfully installed actionmailer-2.2.2
+  Successfully installed activeresource-2.2.2
   Successfully installed rails-2.2.2
+  7 gems installed
+  check if database gems are needed ...
+  sudo apt-get install --yes ruby-dev libpq-dev
+  sudo gem install postgres
+  Building native extensions.  This could take a while...
+  Successfully installed postgres-0.7.9.2008.01.28
   1 gem installed
   check if configured gems are needed ...
   rake gems:install_with_sudo
-  sudo gem install sqlite3-ruby
-  Building native extensions.  This could take a while...
-  Successfully installed sqlite3-ruby-1.2.4
-  1 gem installed
+  (in /home/alban/skyline)
+  
+    Warning: You have rspec rake tasks installed in
+    /home/alban/skyline/lib/tasks/rspec.rake,
+    but rspec can not be found in vendor/gems, vendor/plugins or on the system.
+  
   sudo gem install rspec-rails
   Successfully installed rspec-1.1.12
   Successfully installed rspec-rails-1.1.12
   2 gems installed
-
+  
 Setup your rails environment before running a rake task:
 
   ./script/rake_with_rails_setup cruise

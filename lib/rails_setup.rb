@@ -27,6 +27,7 @@ class RailsSetup
 
     def run
       install_rails
+      install_database_gems
       install_configured_gems
     end
 
@@ -52,6 +53,43 @@ class RailsSetup
 
       puts "check if configured gems are needed ..."
       sh "rake #{gems_install_task}"
+    end
+
+    def install_database_gems
+      puts "check if database gems are needed ..."
+
+      required_database_gems = []
+
+      if missing_adapter = detect_missing_database_adapter
+        case missing_adapter
+        when 'postgresql'
+          required_database_gems << "postgres"
+        end
+      end
+
+      unless required_database_gems.empty?
+        # rake hook to install system libraries for example
+        %x(rake "gems:db:prerequisites" "ADAPTER_GEMS=#{required_database_gems.join(' ')}") 
+
+        install_gems(required_database_gems) 
+      end
+    end
+
+    def install_gems(gems)
+      cmd = %w{gem install} + gems 
+      cmd = %w{sudo} + cmd if use_sudo
+
+      sh cmd.join(' ')
+    end
+
+    private 
+
+    def detect_missing_database_adapter
+      begin
+        require File.join(File.dirname(__FILE__), %w{..} * 4,%w{config environment})
+      rescue RuntimeError => e
+         $1 if e.message =~ /Please install the (.*) adapter/
+      end
     end
 
   end
