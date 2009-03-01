@@ -31,7 +31,7 @@ class RailsSetup
       install_configured_gems
     end
 
-    def install_rails(use_sudo = true)
+    def install_rails
       puts "check if rails gems are needed ..."
       # Kernel.gem is modified to install rails gem if needed :
       require File.join(File.dirname(__FILE__), %w{..} * 4,%w{config boot})
