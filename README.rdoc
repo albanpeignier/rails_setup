@@ -9,6 +9,51 @@ Provides scripts and tasks to setup your rails environment
     create script/rails_setup
     create script/rake_with_rails_setup
 
+== Features
+
+=== Install rails gems
+
++rails_setup+ install gems required by the config/boot.rb of your project.
+
+*How*: +rails_setup+ loads boot.rb and intercepts Kernel.gem LoadError on 'rails' gem. The required gem is silently installed.
+
+=== Install database gems
+
++rails_setup+ install gems required by the database adapters configured into the database.yml of your project. 
+
+*How*:  +rails_setup+ loads environment.rb and intercepts the error "Please install the xyz adapter". The required gem(s) is deduced from the adapter name.
+
+A rake task 'gems:db:prerequisites' is invoked before the database gem install to install system libraries if needed. For example :
+
+  namespace :gems do
+    namespace :db do
+      task :prerequisites do
+        packages = []
+
+        case ENV['ADAPTER_GEMS']
+        when 'postgres'
+          packages << 'libpq-dev'
+        end
+
+        sh "apt-get install --yes #{packages.join(',')}"
+      end
+    end
+  end
+
+*Note*: the supported adapters list is really short for the moment. Contributions are welcome ;)
+
+=== Install configured gems
+
++rails_setup+ simply uses the Rails Gem dependencies support. A rake task +gem:install_with_sudo+ is provided to make easier this operation for normal users.
+
+=== Setup before rask tasks
+
++rake_with_rails_setup+ runs rails setup before executing specified rake tasks.
+
+=== Sudo support
+
+By default, all these operations are performed by using +sudo+. RailsSetup.use_sudo controls this behaviour (no command line for the moment).
+
 == Example
 
 Setup your rails environment in a single command:
@@ -54,13 +99,13 @@ Setup your rails environment before running a rake task:
   rake gems:install_with_sudo
   rake cruise
 
-Install your configured gems with sudo:
+Install your configured gems with +sudo+:
 
   rake gems:install_with_sudo
 
 == CruiseControl.rb integration
 
-To use rake_with_rails_setup in Cruisecontrol.rb
+To use +rake_with_rails_setup+ in Cruisecontrol.rb
 
   Project.configure do |project|
 
